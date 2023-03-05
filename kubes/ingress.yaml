@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: remailable
+  namespace: q-personal
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+    - host: remailable.magicalcodewit.ch
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: remailable
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - remailable.magicalcodewit.ch
+      secretName: remailable-tls

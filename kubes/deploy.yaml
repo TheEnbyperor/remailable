@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: remailable
+  namespace: q-personal
+  labels:
+    app: remailable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: remailable
+  template:
+    metadata:
+      annotations:
+        cni.projectcalico.org/ipv6pools: '["default-ipv6-ippool"]'
+      labels:
+        app: remailable
+    spec:
+      containers:
+        - name: remailable
+          image: thenebyperor/remailable:1
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: remailable-conf
+          env:
+            - name: ROCKET_ENV
+              value: production
+            - name: ROCKET_PORT
+              value: "80"
+            - name: ROCKET_ADDRESS
+              value: "::"
+            - name: DEVICE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: remailable-key
+                  key: device_token

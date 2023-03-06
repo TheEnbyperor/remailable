@@ -11,7 +11,7 @@ chrono = "0.4.23"
 futures = "0.3.26"
 hex = "0.4.3"
 mail-parser = "0.8.2"
-reqwest = { version = "0.11.14", features = ["json"] }
+reqwest = { version = "0.11.14", default_features = false, features = ["json", "rustls-tls", "gzip", "brotli", "deflate"] }
 rocket = "0.5.0-rc.2"
 rsa = "0.8.2"
 serde = { version = "1.0.152", features = ["derive"] }

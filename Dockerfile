@@ -1,4 +1,5 @@
 FROM rustlang/rust:nightly AS builder
+RUN apt-get update && apt-get install -y musl-tools
 RUN mkdir /new_tmp
 WORKDIR /usr/src/
 RUN rustup target add x86_64-unknown-linux-musl

@@ -753,11 +753,6 @@ fn rocket() -> _ {
     let pubkey = BASE64_STANDARD_NO_PAD.decode(postal_public_key_str).unwrap();
     let pubkey = rsa::RsaPublicKey::from_public_key_der(&pubkey).unwrap();
 
-    const POSTAL_PUBLIC_KEY: &'static str =
-        "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQChELn1Fkauo6bduyGeXNca/z27OYNMd85JZMlNiycfFHaAXzgPd53OKV\
-    SbyzBuILFPYmzkfaFuOCW2qgvFd8cAye6qLsUAqEetiuRTPpAysX3hss1TqIML51kb0ADTmylKi3Hr553qrDy9AEMFmvaKn\
-    TH8o0YFozGk0QtlmiLtXQIDAQAB";
-
     rocket::build()
         .manage(Config {
             postal_public_key: pubkey,
@@ -765,30 +760,3 @@ fn rocket() -> _ {
         })
         .mount("/", rocket::routes![email])
 }
-
-// const ROOT: &'static str = include_str!("../root");
-//
-// #[rocket::main]
-// async fn main() {
-//     let client = RMClient::new(DEVCE_TOKEN).await.unwrap();
-//     let root = client.get_root(false).await.unwrap();
-//     println!("{:?}", root);
-//
-//     let root_index = Index::parse(ROOT).unwrap();
-//     println!("{:?}", root_index);
-//
-//     let mut root = HashTree {
-//         hash: "".to_string(),
-//         generation: root.generation,
-//         docs: root_index.entries.into_iter().map(|e| Doc {
-//             entry: e,
-//             files: vec![],
-//             metadata: FileMetadata::default(),
-//             content: Content::default(),
-//         }).collect(),
-//     };
-//     root.rehash();
-//
-//     let ng = client.upload_root(&root).await.unwrap();
-//     client.sync_complete(ng).await.unwrap();
-// }
